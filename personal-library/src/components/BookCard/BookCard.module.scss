@@ -1,0 +1,168 @@
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  &.read {
+    border-color: #4caf50;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f8f4 100%);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  flex: 1;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.readBadge {
+  background: #4caf50;
+  color: #ffffff;
+}
+
+.unreadBadge {
+  background: #ff9800;
+  color: #ffffff;
+}
+
+.content {
+  margin-bottom: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+
+.author,
+.year,
+.date {
+  margin: 8px 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 24px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.toggleButton {
+  background: #64b5f6;
+  color: #ffffff;
+
+  &:hover:not(:disabled) {
+    background: #42a5f5;
+  }
+}
+
+.editButton {
+  background: #ffa726;
+  color: #ffffff;
+
+  &:hover:not(:disabled) {
+    background: #ff9800;
+  }
+}
+
+.deleteButton {
+  background: #e57373;
+  color: #ffffff;
+
+  &:hover:not(:disabled) {
+    background: #ef5350;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
