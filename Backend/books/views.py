@@ -1,4 +1,9 @@
 import logging
+
+from django.db import connection
+from django.http import JsonResponse
+from django.utils import timezone
+from django.views.decorators.http import require_GET
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -22,6 +27,40 @@ class BookViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         logger.info(f"Получение книги с id: {kwargs.get('pk')}")
         return super().retrieve(request, *args, **kwargs)
+
+    @require_GET
+    def health_check(request):
+        """
+        Health check endpoint для Load Balancer и мониторинга
+        """
+        health_status = {
+            'status': 'healthy',
+            'timestamp': timezone.now().isoformat(),
+            'service': 'django-books-api',
+            'checks': {}
+        }
+
+        # 1. Проверка базы данных
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+                cursor.fetchone()
+            health_status['checks']['database'] = {
+                'status': 'healthy',
+                'response_time': None  # можно добавить замер времени
+            }
+            logger.info("Database health check: OK")
+        except Exception as e:
+            health_status['status'] = 'unhealthy'
+            health_status['checks']['database'] = {
+                'status': 'unhealthy',
+                'error': str(e)
+            }
+            logger.error(f"Database health check failed: {str(e)}")
+
+        http_status = 200 if health_status['status'] == 'healthy' else 503
+
+        return JsonResponse(health_status, status=http_status)
     
     def create(self, request, *args, **kwargs):
         logger.info("Создание новой книги", extra={'book_data': request.data})
