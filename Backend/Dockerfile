@@ -11,10 +11,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+RUN mkdir -p /app/staticfiles
 
 RUN python manage.py collectstatic --noinput
 
 RUN adduser --disabled-password --gecos '' appuser
 USER appuser
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "book_library.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
